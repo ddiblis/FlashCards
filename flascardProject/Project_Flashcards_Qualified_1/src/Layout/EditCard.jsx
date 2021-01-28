@@ -56,9 +56,9 @@ export default function EditCard() {
               /> <br />
           </form>
           <div style={{ justifyContent: "flex-start"}}>
-            <button type="submit" class="btn btn-secondary" style={{ marginLeft: "5px" }}>Done</button>
+            <button type="submit" className="btn btn-secondary" style={{ marginLeft: "5px" }}>Done</button>
             <Link to={`/decks/${selectedDeck.id}`}>
-              <button type="button" class="btn btn-primary" style={{ marginLeft : "5px" }}>Save</button>
+              <button type="button" className="btn btn-primary" style={{ marginLeft : "5px" }}>Save</button>
             </Link>
           </div>
         </div>

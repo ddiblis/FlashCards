@@ -23,8 +23,8 @@ export default function DisplayDeck() {
   const validCards = cardList && cardList.filter(card => !card.cards)
 
   const validCardList = validCards && validCards.map(card => (
-        <div class="card">
-          <div class="card-body">
+        <div className="card">
+          <div className="card-body">
             <div style={{ float: "left", width: "50%" }}>
               <p className="text-muted">{card.front}</p>
             </div>
@@ -33,7 +33,7 @@ export default function DisplayDeck() {
             </div>
             <br />
               <div>
-                <Link to={`/decks/${displayDeck.id}/cards/${card.id}`}>
+                <Link to={`/decks/${displayDeck.id}/cards/${card.id}/edit`}>
                   <button 
                     type="button" 
                     className="btn btn-secondary" 
@@ -57,9 +57,9 @@ export default function DisplayDeck() {
   return (
     <div className="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li class="breadcrumb-item active" aria-current="page">{displayDeck.name}</li>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">{displayDeck.name}</li>
         </ol>
       </nav>
       <div>
@@ -71,7 +71,6 @@ export default function DisplayDeck() {
           <button 
             type="button" 
             className="btn btn-secondary" 
-            onClick
             >
             Edit
           </button>
@@ -81,7 +80,6 @@ export default function DisplayDeck() {
             type="button" 
             className="btn btn-primary" 
             style={{ marginLeft: "5px"}}
-            onClick
             >
             Study
           </button>

@@ -22,10 +22,10 @@ export default function EditDeck() {
   return (
     <div className="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li class="breadcrumb-item active" aria-current="page">{selectedDeck.name}</li>
-          <li class="breadcrumb-item active" aria-current="page">Edit Deck</li>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">{selectedDeck.name}</li>
+          <li className="breadcrumb-item active" aria-current="page">Edit Deck</li>
         </ol>
       </nav>
       <h1>Edit Deck</h1>
@@ -54,9 +54,9 @@ export default function EditDeck() {
       </form>
       <div style={{ justifyContent: "flex-start"}}>
         <Link to={`/decks/${selectedDeck.id}`}>
-          <button type="button" class="btn btn-secondary" style={{ marginLeft : "5px" }}>Cancel</button>
+          <button type="button" className="btn btn-secondary" style={{ marginLeft : "5px" }}>Cancel</button>
         </Link>
-        <button type="submit" class="btn btn-primary" style={{ marginLeft: "5px" }}>Submit</button>
+        <button type="submit" className="btn btn-primary" style={{ marginLeft: "5px" }}>Submit</button>
       </div>
     </div>
   );

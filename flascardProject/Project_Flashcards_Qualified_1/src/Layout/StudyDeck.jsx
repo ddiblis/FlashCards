@@ -30,23 +30,23 @@ export default function StudyDeck() {
   return (
     <div className="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li class="breadcrumb-item active" aria-current="page"><Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link></li>
-          <li class="breadcrumb-item active" aria-current="page">Study</li>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">Study</li>
         </ol>
       </nav>
       <h1> {"Study: " + selectedDeck.name}</h1>
       {validCards.length > 2 ? (
         <Fragment>
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">
               {selectedCard + 1 + " of " + validCards.length}
             </h5>
             {!flipped ? (
               <Fragment>
-                <p class="card-text">{validCards[selectedCard].front}</p>
+                <p className="card-text">{validCards[selectedCard].front}</p>
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -58,7 +58,7 @@ export default function StudyDeck() {
               </Fragment>
             ) : (
               <Fragment>
-                <p class="card-text">{validCards[selectedCard].back}</p>
+                <p className="card-text">{validCards[selectedCard].back}</p>
                 <button
                   type="button"
                   className="btn btn-secondary"

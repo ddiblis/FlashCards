@@ -11,9 +11,9 @@ export default function CreateDeck() {
   return (
     <div className="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li class="breadcrumb-item active" aria-current="page">Create Deck</li>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">Create Deck</li>
         </ol>
       </nav>
       <h1> Create Deck</h1>
@@ -41,8 +41,8 @@ export default function CreateDeck() {
           /> <br />
       </form>
       <div style={{ justifyContent: "flex-start"}}>
-        <button type="submit" class="btn btn-primary" style={{ marginLeft: "5px" }}>Submit</button>
-        <button type="button" class="btn btn-secondary" style={{ marginLeft : "5px" }} onClick={() => history.push("/")}>Cancel</button>
+        <button type="submit" className="btn btn-primary" style={{ marginLeft: "5px" }}>Submit</button>
+        <button type="button" className="btn btn-secondary" style={{ marginLeft : "5px" }} onClick={() => history.push("/")}>Cancel</button>
       </div>
     </div>
   );

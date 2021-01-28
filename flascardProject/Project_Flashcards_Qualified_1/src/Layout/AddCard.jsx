@@ -25,10 +25,10 @@ export default function AddCard() {
     return (
     <div className="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li class="breadcrumb-item active" aria-current="page"><Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link></li>
-          <li class="breadcrumb-item active" aria-current="page">Add Card</li>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+          <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link></li>
+          <li className="breadcrumb-item active" aria-current="page">Add Card</li>
         </ol>
       </nav>
       <h3>{selectedDeck.name + ": Add Card"}</h3>
@@ -56,9 +56,9 @@ export default function AddCard() {
           /> <br />
       </form>
       <div style={{ justifyContent: "flex-start"}}>
-        <button type="submit" class="btn btn-secondary" style={{ marginLeft: "5px" }}>Done</button>
+        <button type="submit" className="btn btn-secondary" style={{ marginLeft: "5px" }}>Done</button>
         <Link to={`/decks/${selectedDeck.id}`}>
-          <button type="button" class="btn btn-primary" style={{ marginLeft : "5px" }}>Save</button>
+          <button type="button" className="btn btn-primary" style={{ marginLeft : "5px" }}>Save</button>
         </Link>
       </div>
     </div>
