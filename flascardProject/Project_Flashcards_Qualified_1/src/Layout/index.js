@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Switch, Route, Link, useHistory, useParams } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Switch, Route, Link } from "react-router-dom";
 
 import Header from "./Header";
 import NotFound from "./NotFound";
@@ -8,15 +8,9 @@ import CreateDeck from "./CreateDeck";
 import DisplayDeck from "./DisplayDeck";
 import StudyDeck from "./StudyDeck"
 import AddCard from "./AddCard"
-import { listDecks, readDeck, listCards } from "../utils/api";
+import EditCard from "./EditCard"
+import EditDeck from "./EditDeck"
 
-
-// function EditDeck() {
-//   const [selectedDeck, setSelectedDeck] = useState([])
-//   const { deckId } = useParams()
-  
-
-// }
 
 function Layout() {
   return (
@@ -40,6 +34,12 @@ function Layout() {
           </Route>
           <Route exact path={`/decks/:deckId/cards/new`}>
             <AddCard />
+          </Route>
+          <Route exact path={`/decks/:deckId/edit`}>
+           <EditDeck />
+         </Route>
+          <Route exact path={`/decks/:deckId/cards/:cardId`}>
+           <EditCard />
           </Route>
           <Route>
             <NotFound />

@@ -33,14 +33,15 @@ export default function DisplayDeck() {
             </div>
             <br />
               <div>
-                <button 
-                  type="button" 
-                  className="btn btn-secondary" 
-                  style={{ float: "right", marginLeft: "5px" }}
-                  onClick
-                  >
-                  Edit
-                </button>
+                <Link to={`/decks/${displayDeck.id}/cards/${card.id}`}>
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    style={{ float: "right", marginLeft: "5px" }}
+                    >
+                    Edit
+                  </button>
+                </Link>
                 <button 
                   type="button" 
                   className="btn btn-danger"
@@ -66,13 +67,15 @@ export default function DisplayDeck() {
         <p>{displayDeck.description}</p>
       </div>
       <div>
-        <button 
-          type="button" 
-          className="btn btn-secondary" 
-          onClick
-          >
-          Edit
-        </button>
+        <Link to={`/decks/${displayDeck.id}/edit`}>
+          <button 
+            type="button" 
+            className="btn btn-secondary" 
+            onClick
+            >
+            Edit
+          </button>
+        </Link>
         <Link to={`/decks/${displayDeck.id}/study`}>
           <button 
             type="button" 
