@@ -6,11 +6,10 @@ import NotFound from "./NotFound";
 import DeckList from "./DeckList";
 import CreateDeck from "./CreateDeck";
 import DisplayDeck from "./DisplayDeck";
-import StudyDeck from "./StudyDeck"
-import AddCard from "./AddCard"
-import EditCard from "./EditCard"
-import EditDeck from "./EditDeck"
-
+import StudyDeck from "./StudyDeck";
+import AddCard from "./AddCard";
+import EditCard from "./EditCard";
+import EditDeck from "./EditDeck";
 
 function Layout() {
   return (
@@ -36,10 +35,10 @@ function Layout() {
             <AddCard />
           </Route>
           <Route exact path={`/decks/:deckId/edit`}>
-           <EditDeck />
-         </Route>
+            <EditDeck />
+          </Route>
           <Route exact path={`/decks/:deckId/cards/:cardId/edit`}>
-           <EditCard />
+            <EditCard />
           </Route>
           <Route>
             <NotFound />

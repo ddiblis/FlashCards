@@ -1,114 +1,63 @@
-import React, { useEffect, useState, Fragment } from "react"
-import { useHistory, useParams, Link } from "react-router-dom"
+import React, { useEffect, useState, Fragment } from "react";
+import { useParams, Link } from "react-router-dom";
 
-import { listDecks, listCards } from "../utils/api"
+import { readDeck } from "../utils/api";
+import StudyCardLogic from "./StudyCardLogic";
 
 export default function StudyDeck() {
   const [selectedDeck, setSelectedDeck] = useState([]);
   const [cardList, setCardList] = useState([]);
-  const [flipped, setFlipped] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(0);
   const { deckId } = useParams();
-  const history = useHistory()
 
   useEffect(() => {
     const abortController = new AbortController();
-    listDecks(abortController.signal)
-      .then((decks) => {
-        return decks.find((d) => d.id === parseInt(deckId));
-      })
-      .then((deck) => {
-        setSelectedDeck(deck);
-        listCards(deck.id, abortController.signal).then(setCardList);
-      });
+    readDeck(deckId, abortController.signal).then((deck) => {
+      setSelectedDeck(deck);
+      setCardList(deck.cards);
+    });
+
     return () => abortController.abort();
   }, [deckId]);
 
-  if (cardList.length === 0) return <Fragment />;
-  const validCards = cardList.filter((card) => !card.cards);
+  const validCards = cardList && cardList.filter((card) => !card.cards);
 
   return (
-    <div className="container">
+    <Fragment>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-          <li className="breadcrumb-item active" aria-current="page"><Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link></li>
-          <li className="breadcrumb-item active" aria-current="page">Study</li>
+          <li className="breadcrumb-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            <Link to={`/decks/${selectedDeck.id}`}>{selectedDeck.name}</Link>
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            Study
+          </li>
         </ol>
       </nav>
-      <h1> {"Study: " + selectedDeck.name}</h1>
-      {validCards.length > 2 ? (
-        <Fragment>
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">
-              {selectedCard + 1 + " of " + validCards.length}
-            </h5>
-            {!flipped ? (
-              <Fragment>
-                <p className="card-text">{validCards[selectedCard].front}</p>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  style={{ float: "left" }}
-                  onClick={() => setFlipped(true)}
-                >
-                  Flip
-                </button>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <p className="card-text">{validCards[selectedCard].back}</p>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  style={{ float: "left" }}
-                  onClick={() => setFlipped(false)}
-                >
-                  Flip
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  style={{ float: "left", marginLeft: "5px" }}
-                  onClick={() => {
-                    const nextCard = selectedCard + 1
-                    if(validCards[nextCard]) {
-                    setSelectedCard(nextCard)
-                    setFlipped(false)
-                    }
-                    else if (window.confirm("Restart Cards?")) {
-                      setSelectedCard(0)
-                      setFlipped(false)
-                    }
-                    else {
-                      history.push("/")
-                    }
-                  }}
-                >
-                  Next
-                </button>
-              </Fragment>
-            )}
-        </div>
-      </div>
-        </Fragment>
+      <h1>{"Study: " + selectedDeck.name}</h1>
+      {cardList.length > 0 && validCards.length > 2 ? (
+        <StudyCardLogic validCards={validCards} />
       ) : (
         <Fragment>
           <h3>Not enough cards.</h3>
-          <p>{"You need at least 3 cards to study. There are " + validCards.length + " cards in the deck."} </p>
+          <p>
+            {"You need at least 3 cards to study. There are " +
+              validCards.length +
+              " cards in the deck."}{" "}
+          </p>
           <Link to={`/decks/${selectedDeck.id}/cards/new`}>
-            <button 
-                type="button" 
-                className="btn btn-primary" 
-                style={{ marginLeft: "5px"}}
-                onClick
-                >
-                Add Cards
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ marginLeft: "5px" }}
+            >
+              Add Cards
             </button>
           </Link>
         </Fragment>
       )}
-    </div>
+    </Fragment>
   );
 }
