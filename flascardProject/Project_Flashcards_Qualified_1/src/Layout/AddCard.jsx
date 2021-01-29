@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 
-import { readDeck } from "../utils/api";
+import { createCard, readDeck } from "../utils/api";
 
 export default function AddCard() {
   const [selectedDeck, setSelectedDeck] = useState([]);
   const { deckId } = useParams();
-  const [front, setFront] = useState("");
-  const [back, setBack] = useState("");
-  const handleFrontChange = (event) => setFront(event.target.value);
-  const handleBackChange = (event) => setBack(event.target.value);
+  const [form, setForm] = useState({
+    front: "",
+    back: "",
+    id: 1,
+  })
+  const handleFrontChange = (event) => pushVar({ front: event.target.value });
+  const handleBackChange = (event) => pushVar({ back: event.target.value });
+  const history = useHistory()
+
+
+  const pushVar = (values) => {
+    setForm({ ...form, ...values })
+  }
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -34,7 +43,10 @@ export default function AddCard() {
         </ol>
       </nav>
       <h3>{selectedDeck.name + ": Add Card"}</h3>
-      <form>
+      <form onSubmit={() => {
+        createCard(deckId, form)
+        history.push(`/decks/${selectedDeck.id}`)
+      }}>
         <label htmlFor="name">Front</label> <br />
         <textarea
           id="name"
@@ -43,7 +55,7 @@ export default function AddCard() {
           placeholder="Front side of card"
           onChange={handleFrontChange}
           style={{ width: "100%", height: "150px" }}
-          value={front}
+          value={form.front}
         />{" "}
         <br />
         <br />
@@ -56,28 +68,31 @@ export default function AddCard() {
           placeholder="Back side of card"
           onChange={handleBackChange}
           style={{ width: "100%", height: "150px" }}
-          value={back}
+          value={form.back}
         />{" "}
         <br />
+        <div style={{ justifyContent: "flex-start" }}>
+          <Link to={`/decks/${selectedDeck.id}`}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ marginLeft: "5px" }}
+            >
+              Done
+            </button>
+          </Link>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ marginLeft: "5px" }}
+              onClick={() => {
+                if (selectedDeck.cards.length) pushVar({ id: selectedDeck.cards.length + 3 })
+              }}
+            >
+              Save
+            </button>
+        </div>
       </form>
-      <div style={{ justifyContent: "flex-start" }}>
-        <button
-          type="submit"
-          className="btn btn-secondary"
-          style={{ marginLeft: "5px" }}
-        >
-          Done
-        </button>
-        <Link to={`/decks/${selectedDeck.id}`}>
-          <button
-            type="button"
-            className="btn btn-primary"
-            style={{ marginLeft: "5px" }}
-          >
-            Save
-          </button>
-        </Link>
-      </div>
     </div>
   );
 }

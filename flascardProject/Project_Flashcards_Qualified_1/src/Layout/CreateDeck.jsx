@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
+import { createDeck, listDecks } from "../utils/api";
 
 export default function CreateDeck() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const handleNameChange = (event) => setName(event.target.value);
-  const handleDescriptionChange = (event) => setDescription(event.target.value);
+  const [deckList, setDeckList] = useState([])
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+    id: 1
+  })
+  const handleNameChange = (event) => pushVar({ name: event.target.value });
+  const handleDescriptionChange = (event) => pushVar({ description: event.target.value });
   const history = useHistory();
+
+  const pushVar = (values) => {
+    setForm({ ...form, ...values })
+  }
+
+  useEffect(() => {
+    const abortController = new AbortController()
+    listDecks().then(setDeckList)
+
+    return () => abortController.abort()
+  }, [form.id])
+
+  console.log(form)
 
   return (
     <div className="container">
@@ -21,7 +39,10 @@ export default function CreateDeck() {
         </ol>
       </nav>
       <h1> Create Deck</h1>
-      <form>
+      <form onSubmit={() => {
+        createDeck(form)
+        history.push("/")
+      }}>
         <label htmlFor="name">Name</label> <br />
         <input
           id="name"
@@ -30,7 +51,7 @@ export default function CreateDeck() {
           placeholder="Deck Name"
           onChange={handleNameChange}
           style={{ width: "100%" }}
-          value={name}
+          value={form.name}
         />{" "}
         <br />
         <br />
@@ -43,27 +64,30 @@ export default function CreateDeck() {
           placeholder="Brief description of the deck"
           onChange={handleDescriptionChange}
           style={{ width: "100%", height: "150px" }}
-          value={description}
+          value={form.description}
         />{" "}
         <br />
+        <div style={{ justifyContent: "flex-start" }}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            style={{ marginLeft: "5px" }}
+            onClick={() => pushVar({ id: parseInt(deckList.length) + 1})}
+          >
+            Submit
+          </button>
+          <Link to="/">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ marginLeft: "5px" }}
+              onClick={() => history.push("/")}
+            >
+              Cancel
+            </button>
+          </Link>
+        </div>
       </form>
-      <div style={{ justifyContent: "flex-start" }}>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          style={{ marginLeft: "5px" }}
-        >
-          Submit
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          style={{ marginLeft: "5px" }}
-          onClick={() => history.push("/")}
-        >
-          Cancel
-        </button>
-      </div>
     </div>
   );
 }
