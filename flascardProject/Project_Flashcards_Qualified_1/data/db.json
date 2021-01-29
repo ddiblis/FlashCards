@@ -1,110 +1,46 @@
 {
   "decks": [
     {
-      "name": "deck 1",
-      "description": "deck 1\n",
-      "id": 1
+      "name": "wafiq",
+      "description": "mhfkhgk",
+      "id": 11
     },
     {
-      "name": "deck 2",
-      "description": "deck 2",
-      "id": 2
-    },
-    {
-      "name": "deck 3",
-      "description": "deck 3",
-      "id": 3
-    },
-    {
-      "name": "deck 4",
-      "description": "deck 4",
-      "id": 4
-    },
-    {
-      "name": "deck 5",
-      "description": "deck 5",
-      "id": 5
-    },
-    {
-      "name": "deck 6",
-      "description": "deck 6",
-      "id": 6
-    },
-    {
-      "name": "deck 7",
-      "description": "deck 7",
-      "id": 7
-    },
-    {
-      "name": "deck 8",
-      "description": "deck 8",
-      "id": 8
-    },
-    {
-      "name": "deck 9",
-      "description": "deck 9",
-      "id": 9
-    },
-    {
-      "name": "deck 10",
-      "description": "deck 10",
-      "id": 10
+      "name": "2",
+      "description": "2",
+      "id": 12
     }
   ],
   "cards": [
     {
       "front": "1",
       "back": "1",
-      "deckId": 10,
-      "id": 1001
-    },
-    {
-      "front": "1",
-      "back": "1",
-      "deckId": 1,
-      "id": 101
+      "deckId": 11,
+      "id": 1
     },
     {
       "front": "2",
       "back": "2",
-      "deckId": 1,
-      "id": 102
+      "deckId": 11,
+      "id": 2
     },
     {
-      "front": "3",
-      "back": "3",
-      "deckId": 1,
-      "id": 103
-    },
-    {
-      "front": "4",
-      "back": "4",
-      "deckId": 1,
-      "id": 104
+      "front": "2",
+      "back": "2",
+      "deckId": 11,
+      "id": 3
     },
     {
       "front": "1",
       "back": "1",
-      "deckId": 7,
-      "id": 701
+      "deckId": 12,
+      "id": 4
     },
     {
-      "front": "1",
-      "back": "1",
-      "deckId": 7,
-      "id": 702
-    },
-    {
-      "front": "1",
-      "back": "1",
-      "deckId": 7,
-      "id": 703
-    },
-    {
-      "front": "1",
-      "back": "1",
-      "deckId": 7,
-      "id": 704
+      "front": "2",
+      "back": "12",
+      "deckId": 12,
+      "id": 5
     }
   ]
 }

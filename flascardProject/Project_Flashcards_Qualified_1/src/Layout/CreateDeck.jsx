@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { createDeck, listDecks } from "../utils/api";
+import { createDeck } from "../utils/api";
 
 export default function CreateDeck() {
-  const [deckList, setDeckList] = useState([])
   const [form, setForm] = useState({
     name: "",
-    description: "",
-    id: 1
+    description: ""
   })
   const handleNameChange = (event) => pushVar({ name: event.target.value });
   const handleDescriptionChange = (event) => pushVar({ description: event.target.value });
@@ -17,12 +15,7 @@ export default function CreateDeck() {
     setForm({ ...form, ...values })
   }
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    listDecks().then(setDeckList)
 
-    return () => abortController.abort()
-  }, [form.id])
 
   return (
     <div className="container">
@@ -70,7 +63,6 @@ export default function CreateDeck() {
             type="submit"
             className="btn btn-primary"
             style={{ marginLeft: "5px" }}
-            onClick={() => pushVar({ id: parseInt(deckList.length) + 1})}
           >
             Submit
           </button>
