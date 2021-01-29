@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 
-import { createCard, readDeck } from "../utils/api";
+import { createCard, listCards, readDeck } from "../utils/api";
 
 export default function AddCard() {
   const [selectedDeck, setSelectedDeck] = useState([]);
+  const [cardList, setCardList] = useState([])
   const { deckId } = useParams();
   const [form, setForm] = useState({
     front: "",
     back: "",
-    id: 1,
+    deckId: parseInt(deckId),
+    id: 1
   })
   const handleFrontChange = (event) => pushVar({ front: event.target.value });
   const handleBackChange = (event) => pushVar({ back: event.target.value });
   const history = useHistory()
+  const initialValue = (parseInt(deckId) * 1000)
 
 
   const pushVar = (values) => {
@@ -22,10 +25,15 @@ export default function AddCard() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    readDeck(deckId, abortController.signal).then(setSelectedDeck);
-
+    readDeck(deckId, abortController.signal).then(deck =>  {
+      setSelectedDeck(deck)
+      listCards(deck.id).then(setCardList)
+    })
     return () => abortController.abort();
   }, [deckId]);
+
+  console.log(cardList.length)
+  console.log(form)
 
   return (
     <div className="container">
@@ -86,7 +94,9 @@ export default function AddCard() {
               className="btn btn-primary"
               style={{ marginLeft: "5px" }}
               onClick={() => {
-                if (selectedDeck.cards.length) pushVar({ id: selectedDeck.cards.length + 3 })
+               
+                pushVar({ id: initialValue + cardList.length + 1 })
+               
               }}
             >
               Save

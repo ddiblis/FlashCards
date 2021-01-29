@@ -24,8 +24,6 @@ export default function CreateDeck() {
     return () => abortController.abort()
   }, [form.id])
 
-  console.log(form)
-
   return (
     <div className="container">
       <nav aria-label="breadcrumb">
