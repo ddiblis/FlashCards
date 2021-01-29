@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 
-import { readCard, readDeck } from "../utils/api";
+import { readCard, readDeck, updateCard } from "../utils/api";
 
 export default function EditCard() {
   const [selectedDeck, setSelectedDeck] = useState([]);
   const [selectedCard, setSelectedCard] = useState([]);
   const { deckId, cardId } = useParams();
-  const [front, setFront] = useState("");
-  const [back, setBack] = useState("");
-  const handleFrontChange = (event) => setFront(event.target.value);
-  const handleBackChange = (event) => setBack(event.target.value);
+  const [form, setForm] = useState({
+    front: "",
+    back: "",
+    id: cardId,
+    deckId: parseInt(deckId),
+  });
+  const handleFrontChange = (event) => setVar({ front: event.target.value });
+  const handleBackChange = (event) => setVar({ back: event.target.value });
+  const history = useHistory();
+
+  const setVar = (values) => {
+    setForm({ ...form, ...values });
+  };
+
   useEffect(() => {
     const abortController = new AbortController();
     readDeck(deckId, abortController.signal).then((deck) => {
@@ -35,50 +45,55 @@ export default function EditCard() {
         </ol>
       </nav>
       <h3>Edit Card</h3>
-      <form>
-        <label htmlFor="name">Front</label> <br />
+      <form
+        onSubmit={() => {
+          updateCard(form);
+          history.push(`/decks/${deckId}`);
+        }}
+      >
+        <label htmlFor="front">Front</label> <br />
         <textarea
-          id="name"
+          id="front"
           type="text"
-          name="name"
+          name="front"
           defaultValue={selectedCard.front}
           onChange={handleFrontChange}
           style={{ width: "100%", height: "150px" }}
-          value={front}
+          value={form.front}
         />{" "}
         <br />
         <br />
-        <label htmlFor="description">Back</label>
+        <label htmlFor="back">Back</label>
         <br />
         <textarea
-          id="description"
+          id="back"
           type="text"
-          name="description"
+          name="back"
           defaultValue={selectedCard.back}
           onChange={handleBackChange}
           style={{ width: "100%", height: "150px" }}
-          value={back}
+          value={form.back}
         />{" "}
         <br />
-      </form>
-      <div style={{ justifyContent: "flex-start" }}>
-        <button
-          type="submit"
-          className="btn btn-secondary"
-          style={{ marginLeft: "5px" }}
-        >
-          Done
-        </button>
-        <Link to={`/decks/${selectedDeck.id}`}>
+        <div style={{ justifyContent: "flex-start" }}>
+          <Link to={`/decks/${selectedDeck.id}`}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ marginLeft: "5px" }}
+            >
+              Done
+            </button>
+          </Link>
           <button
-            type="button"
+            type="submit"
             className="btn btn-primary"
             style={{ marginLeft: "5px" }}
           >
             Save
           </button>
-        </Link>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

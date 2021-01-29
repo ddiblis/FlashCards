@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 
-import { readDeck } from "../utils/api";
+import { readDeck, deleteDeck, deleteCard } from "../utils/api";
 
 export default function DisplayDeck() {
   const [displayDeck, setDisplayDeck] = useState([]);
   const { deckId } = useParams();
+  const history = useHistory()
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -45,6 +46,12 @@ export default function DisplayDeck() {
               type="button"
               className="btn btn-danger"
               style={{ float: "right" }}
+              onClick={() => {
+                if (window.confirm("Delete this card?")) {
+                  deleteCard(card.id)
+                  history.go(0)
+                }
+              }}
             >
               Delete
             </button>
@@ -97,6 +104,12 @@ export default function DisplayDeck() {
           type="button"
           className="btn btn-danger"
           style={{ float: "right" }}
+          onClick={() => {
+            if (window.confirm("Delete this deck?")) {
+              deleteDeck(deckId)
+              history.push("/")
+            }
+          }}
         >
           Delete
         </button>

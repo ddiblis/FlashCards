@@ -11,7 +11,7 @@ export default function StudyCardLogic(props) {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title">
-          {selectedCard + 1 + " of " + validCards.length}
+          {"Card " + (selectedCard + 1) + " of " + validCards.length}
         </h5>
         {!flipped ? (
           <Fragment>

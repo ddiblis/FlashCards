@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import { listDecks } from "../utils/api";
+import { listDecks, deleteDeck } from "../utils/api";
 
 export default function Deck({ deck }) {
   const [cardList, setCardList] = useState([]);
+  const history = useHistory()
 
   useEffect(() => {
     listDecks().then((d) => {
@@ -43,7 +44,12 @@ export default function Deck({ deck }) {
           type="button"
           className="btn btn-danger"
           style={{ float: "right" }}
-          // onClick={() => deleteDeck(deck.id)}
+          onClick={() => {
+            if (window.confirm("Delete this deck?")) {
+              deleteDeck(deck.id)
+              history.go(0)
+            }
+          }}
         >
           Delete
         </button>
