@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 
 import { readCard, readDeck, updateCard } from "../utils/api";
+import CardForm from "./CardForm";
 
 export default function EditCard() {
   const [selectedDeck, setSelectedDeck] = useState([]);
-  const [selectedCard, setSelectedCard] = useState([]);
   const { deckId, cardId } = useParams();
   const [form, setForm] = useState({
     front: "",
@@ -25,9 +25,19 @@ export default function EditCard() {
     const abortController = new AbortController();
     readDeck(deckId, abortController.signal).then((deck) => {
       setSelectedDeck(deck);
-      readCard(cardId, abortController.signal).then(setSelectedCard);
+      readCard(cardId, abortController.signal).then(setForm);
     });
   }, [deckId, cardId]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    updateCard(form).then(() => history.push(`/decks/${deckId}`));
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault()
+    history.push(`/decks/${selectedDeck.id}`) 
+  }
 
   return (
     <div className="container">
@@ -45,55 +55,13 @@ export default function EditCard() {
         </ol>
       </nav>
       <h3>Edit Card</h3>
-      <form
-        onSubmit={() => {
-          updateCard(form);
-          history.push(`/decks/${deckId}`);
-        }}
-      >
-        <label htmlFor="front">Front</label> <br />
-        <textarea
-          id="front"
-          type="text"
-          name="front"
-          defaultValue={selectedCard.front}
-          onChange={handleFrontChange}
-          style={{ width: "100%", height: "150px" }}
-          value={form.front}
-        />{" "}
-        <br />
-        <br />
-        <label htmlFor="back">Back</label>
-        <br />
-        <textarea
-          id="back"
-          type="text"
-          name="back"
-          defaultValue={selectedCard.back}
-          onChange={handleBackChange}
-          style={{ width: "100%", height: "150px" }}
-          value={form.back}
-        />{" "}
-        <br />
-        <div style={{ justifyContent: "flex-start" }}>
-          <Link to={`/decks/${selectedDeck.id}`}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ marginLeft: "5px" }}
-            >
-              Done
-            </button>
-          </Link>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ marginLeft: "5px" }}
-          >
-            Save
-          </button>
-        </div>
-      </form>
+      <CardForm
+        handleBackChange={handleBackChange}
+        handleCancel={handleCancel}
+        handleFrontChange={handleFrontChange}
+        handleSubmit={handleSubmit}
+        form={form}
+      />
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default function DisplayDeck() {
   const validCardList =
     validCards &&
     validCards.map((card) => (
-      <div className="card">
+      <div key={card.id} className="card">
         <div className="card-body">
           <div style={{ float: "left", width: "50%" }}>
             <p className="text-muted">{card.front}</p>

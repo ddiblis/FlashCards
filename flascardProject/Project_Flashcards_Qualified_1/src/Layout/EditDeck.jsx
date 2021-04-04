@@ -2,29 +2,40 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 
 import { readDeck, updateDeck } from "../utils/api";
+import DeckForm from "./DeckForm";
 
 export default function EditDeck() {
-  const [selectedDeck, setSelectedDeck] = useState([]);
   const { deckId } = useParams();
   const [form, setForm] = useState({
     name: "",
     description: "",
-    id: deckId
-  })
-  const handleNameChange = (event) => pushVar({ name: event.target.value});
-  const handleDescriptionChange = (event) => pushVar({ description: event.target.value});
-  const history = useHistory()
+    id: deckId,
+  });
+  const handleNameChange = (event) => pushVar({ name: event.target.value });
+  const handleDescriptionChange = (event) =>
+    pushVar({ description: event.target.value });
+  const history = useHistory();
 
   const pushVar = (values) => {
-    setForm({ ...form, ...values })
-  }
+    setForm({ ...form, ...values });
+  };
 
   useEffect(() => {
     const abortController = new AbortController();
-    readDeck(deckId, abortController.signal).then(setSelectedDeck);
+    readDeck(deckId, abortController.signal).then(setForm);
 
     return () => abortController.abort();
-  }, [deckId]);  
+  }, [deckId]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    updateDeck(form).then(() => history.push(`/decks/${deckId}`));
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    history.push(`/decks/${form.id}`);
+  };
 
   return (
     <div className="container">
@@ -34,7 +45,7 @@ export default function EditDeck() {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            {selectedDeck.name}
+            {form.name}
           </li>
           <li className="breadcrumb-item active" aria-current="page">
             Edit Deck
@@ -42,53 +53,13 @@ export default function EditDeck() {
         </ol>
       </nav>
       <h1>Edit Deck</h1>
-      <form onSubmit={() => {
-        updateDeck(form)
-        history.push(`/decks/${deckId}`)
-      }}>
-        <label htmlFor="name">Name</label> <br />
-        <textarea
-          id="name"
-          type="text"
-          name="name"
-          onChange={handleNameChange}
-          defaultValue={`${selectedDeck.name}`}
-          style={{ width: "100%" }}
-          value={form.name}
-        />{" "}
-        <br />
-        <br />
-        <label htmlFor="description">Description</label>
-        <br />
-        <textarea
-          id="description"
-          type="text"
-          name="description"
-          defaultValue={selectedDeck.description}
-          onChange={handleDescriptionChange}
-          style={{ width: "100%", height: "150px" }}
-          value={form.description}
-        />{" "}
-        <br />
-        <div style={{ justifyContent: "flex-start" }}>
-          <Link to={`/decks/${selectedDeck.id}`}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ marginLeft: "5px" }}
-            >
-              Cancel
-            </button>
-          </Link>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ marginLeft: "5px" }}
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+      <DeckForm
+        handleDescriptionChange={handleDescriptionChange}
+        handleNameChange={handleNameChange}
+        handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+        form={form}
+      />
     </div>
   );
 }
